@@ -18,7 +18,7 @@ public class RepasoJava {
             cadena = EntradaTeclado.pedirCadena("Introduze el tipo de Pizza (Normal/Calzone)");
             if (cadena.equalsIgnoreCase("Normal")) {
                 cadena = EntradaTeclado.pedirCadena("¿Los bordes rellenos de queso? (Si/No)");
-                if (cadena.equals("Si")) {
+                if (cadena.equalsIgnoreCase("Si")) {
                     return new Clasica(precio, segundosHorno, true);
                 } else {
                     return new Clasica(precio, segundosHorno, false);
@@ -69,36 +69,50 @@ public class RepasoJava {
                 case 2 -> {
                     double porcentaje;
                     int numQueso = 0;
-                    Pizza[] colaHorno = Horno1.copiaHorno();
-                    for (int i = 0; i < colaHorno.length; i++) {
-                        Pizza pizza = colaHorno[i];
+                    for (int i = 0; i < Horno1.getNumElementos(); i++) {
+                        Pizza pizza = Horno1.pop();
                         if (pizza instanceof Clasica) {
                             boolean queso = ((Clasica) pizza).tieneQueso();
                             if (queso) {
                                 numQueso++;
                             }
                         }
+                        Horno1.push(pizza);
                     }
-                    porcentaje = (100 * numQueso) / colaHorno.length;
+                    porcentaje = (100 * numQueso) / Horno1.getNumElementos();
                     System.out.println("El porcentaje de pizas con el borde de queso es el: " + porcentaje + "%");
                 }
                 case 3 -> {
-                    Pizza[] colaHorno = Horno1.encenderHorno();
+                    int numVUeltas = Horno1.getNumElementos();
                     try {
-                        for (Pizza pizza : colaHorno) {
-                            System.out.println(pizza);
-                            Thread.sleep((pizza.getSegundosHorno() * 1000));
+                        for (int i = 0; i < numVUeltas; i++) {
+                            Pizza hornoPizza = Horno1.pop();
+                            if (hornoPizza instanceof Clasica) {
+                                Horno1.push(hornoPizza);
+                            } else if (hornoPizza instanceof Calzones) {
+                                System.out.println(hornoPizza);
+                                Thread.sleep((hornoPizza.getSegundosHorno() * 1000));
+                            }
                         }
-                    } catch (Exception e) {
+                        for (int i = 0; i <= Horno1.getNumElementos(); i++) {
+                            Pizza hornoPizza = Horno1.pop();
+                            if (hornoPizza instanceof Clasica) {
+                                System.out.println(hornoPizza);
+                                Thread.sleep((hornoPizza.getSegundosHorno() * 1000));
+                            }
+                        }
+                        }catch (Exception e) {
                         System.out.println(e);
+                        }
                     }
-                }
-                case 4 -> {
+                
+            
+            case 4 -> {
                     System.out.println("Saliendo de la aplicacion");
                 }
             }
         } while (opcion != 4);
 
-    }
+        }
 
-}
+    }

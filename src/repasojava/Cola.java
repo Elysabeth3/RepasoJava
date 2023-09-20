@@ -57,45 +57,4 @@ public class Cola implements AccionesEstructura<Pizza> {
         }
     }
 
-    public Pizza[] copiaHorno() {
-        Pizza[] copia = new Pizza[getNumElementos()];
-        for (int i = 0; i < copia.length; i++) {
-            copia[i] = hornoPizzas[i];
-        }
-        return copia;
-    }
-
-    public Pizza[] encenderHorno() {
-        Cola auxClasica = new Cola(getNumElementos());
-        Cola auxCalzone = new Cola(getNumElementos());
-
-        for (int i = 0; i < getNumElementos(); i++) {
-            Pizza hornoPizza = hornoPizzas[i];
-            if (hornoPizza instanceof Clasica) {
-                Pizza insertar = pop();
-                auxClasica.push(insertar);
-                i--;
-            } else if (hornoPizza instanceof Calzones) {
-                Pizza insertar = pop();
-                auxCalzone.push(insertar);
-                i--;
-            }
-
-        }
-        Pizza[] aux = auxCalzone.copiaHorno();
-        for (int i = 0; i < aux.length; i++) {
-            hornoPizzas[i] = aux[i];
-        }
-        aux = auxClasica.copiaHorno();
-        int posicionMin = getNumElementos();
-        for (int i = 0; i < aux.length; i++) {
-            hornoPizzas[posicionMin] = aux[i];
-            posicionMin++;
-        }
-        Pizza devolverPizza[] = copiaHorno();
-        for (int i = 0; i < hornoPizzas.length; i++) {
-            hornoPizzas[i] = null;
-        }
-        return devolverPizza;
-    }
 }
