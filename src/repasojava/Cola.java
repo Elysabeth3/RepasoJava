@@ -1,6 +1,6 @@
 package repasojava;
 
-public class Cola implements AccionesEstructura<Pizza> {
+public class Cola<T> implements AccionesEstructura<Pizza> {
 
     private Pizza[] hornoPizzas;
 
@@ -11,7 +11,7 @@ public class Cola implements AccionesEstructura<Pizza> {
     @Override
     public boolean push(Pizza elemento) {
         int numElementos = getNumElementos();
-        if (numElementos < hornoPizzas.length - 1) {
+        if (numElementos < hornoPizzas.length) {
             if (numElementos == 0) {
                 hornoPizzas[0] = elemento;
                 return true;
@@ -51,9 +51,8 @@ public class Cola implements AccionesEstructura<Pizza> {
     }
 
     private void ordenar() {
-        for (int i = 0; i < (getNumElementos()); i++) {
-            int j = i + 1;
-            hornoPizzas[i] = hornoPizzas[j];
+        for (int i = 0; i < hornoPizzas.length-1; i++) {
+            hornoPizzas[i] = hornoPizzas[i + 1];
         }
     }
 

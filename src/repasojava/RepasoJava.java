@@ -50,7 +50,7 @@ public class RepasoJava {
         int longitudCola;
         longitudCola = EntradaTeclado.pedirEntero("Introduzca el tamaño de la cola del horno.");
 
-        Cola Horno1 = new Cola(longitudCola);
+        Cola<Pizza> Horno1 = new Cola(longitudCola);
 
         int opcion = 0;
 
@@ -68,19 +68,25 @@ public class RepasoJava {
                 }
                 case 2 -> {
                     double porcentaje;
-                    int numQueso = 0;
-                    for (int i = 0; i < Horno1.getNumElementos(); i++) {
-                        Pizza pizza = Horno1.pop();
-                        if (pizza instanceof Clasica) {
-                            boolean queso = ((Clasica) pizza).tieneQueso();
-                            if (queso) {
-                                numQueso++;
+                    int numQueso = 0, numClassica = 0;
+                    if (Horno1.getNumElementos() != 0) {
+                        for (int i = 0; i < Horno1.getNumElementos(); i++) {
+                            Pizza pizza = Horno1.pop();
+                            if (pizza instanceof Clasica) {
+                                boolean queso = ((Clasica) pizza).tieneQueso();
+                                if (queso) {
+                                    numQueso++;
+                                }
+                                numClassica++;
                             }
+                            Horno1.push(pizza);
                         }
-                        Horno1.push(pizza);
+                        porcentaje = (100 * numQueso) / numClassica;
+                        System.out.println("El porcentaje de pizas con el borde de queso es el: " + porcentaje + "%");
+                    } else {
+                        System.out.println("El horno esta vacio");
                     }
-                    porcentaje = (100 * numQueso) / Horno1.getNumElementos();
-                    System.out.println("El porcentaje de pizas con el borde de queso es el: " + porcentaje + "%");
+
                 }
                 case 3 -> {
                     int numVUeltas = Horno1.getNumElementos();
@@ -101,18 +107,17 @@ public class RepasoJava {
                                 Thread.sleep((hornoPizza.getSegundosHorno() * 1000));
                             }
                         }
-                        }catch (Exception e) {
+                    } catch (Exception e) {
                         System.out.println(e);
-                        }
                     }
-                
-            
-            case 4 -> {
+                }
+
+                case 4 -> {
                     System.out.println("Saliendo de la aplicacion");
                 }
             }
         } while (opcion != 4);
 
-        }
-
     }
+
+}
